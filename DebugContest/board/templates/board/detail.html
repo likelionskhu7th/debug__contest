@@ -1,0 +1,38 @@
+<!-- board_detail page -->
+{% extends 'main/layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card mb-3" style="width: 40rem;">
+            {% if board.image %}
+                <img class="card-img-top" src="{{ board.image.url }}" alt="Card image cap">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ board.title }}</h5>
+                <p class="card-text">{{ board.body }}</p>
+                <p class="card-text">
+                    <small class="text-muted">{{ board.pub_date }}</small>
+                </p>
+            </div>
+            <hr>
+            <!-- hashtag -->
+            <h5>hashtag</h5>
+            {% for hashtag in board.hashtags.all %}
+                <span>{{ hashtag.name }}</span>
+            {% endfor %}
+            <br>
+            <a class="btn btn-outline-secondary btn-sm" href="{% url 'edit' pk=board.pk %}">edit</a>
+            <a class="btn btn-outline-secondary btn-sm" href="{% url 'remove' pk=board.pk %}">remove</a>
+            <a class="btn btn-outline-secondary btn-sm" href="{% url 'board' %}">home</a>
+            {% for comment in board.comments %}
+                <p>{{ comment.content }}</p>
+                <p><a href="{% url 'comment_remove' comment_id %}">댓글 삭제</a></p>
+            {% endfor %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="댓글 입력">
+            </form>
+        </div>
+    </div>
+{% endblock %}

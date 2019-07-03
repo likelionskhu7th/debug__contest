@@ -1,0 +1,23 @@
+<!-- 게시글 보기 -->
+{%extends 'layout.html'%}
+{%load staticfiles%}
+
+{% block body %}
+    <div class="board_container">
+        {% for board in boards.all %}
+            <div class="card" style="width: 18rem;">
+                <a href="{% url 'detail' board.id %}">
+                        <img class="card-img-top" src="{{board.image.url}}" alt="board_img">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ board.title }}</h5>
+                </a>
+                <p class="card-text">{{ board.body }}<br><hr>{{ board.pub_date }}</p>
+                <hr>
+                <a class="btn btn-primary" href="{%url 'edit' pk=board.pk %}">수정</a>
+                <a class="btn btn-primary" href="{%url 'delete' pk=board.pk %}">삭제</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
